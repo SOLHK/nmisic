@@ -256,12 +256,14 @@ func (a *app) settingsView(c *ui.Context) {
 						setUpdateDownloads(on)
 					}
 				})
-				row("当前版本 "+mygo.App.Version(), "", func() {
-					if ui.Button(c.Key("check-updates"), "检查更新").Clicked() {
-						checkForUpdates()
-					}
-				})
 			})
 		}
+		group("关于", func() {
+			row("当前版本 "+mygo.App.Version(), "", func() {
+				if a.updates && ui.Button(c.Key("check-updates"), "检查更新").Clicked() {
+					checkForUpdates()
+				}
+			})
+		})
 	})
 }

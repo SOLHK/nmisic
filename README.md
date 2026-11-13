@@ -1,6 +1,6 @@
-# 网易云音乐 · MyGo
+# nmisic
 
-用 Go 和 [MyGo](https://github.com/egoist/mygo) 写的第三方网易云音乐桌面客户端，原生界面，无 WebView。
+基于 [MyGo 云音乐](https://github.com/egoist/mygo-cloudmusic) 的第三方网易云音乐桌面客户端，用 Go 和 [MyGo](https://github.com/egoist/mygo) 实现原生界面，无 WebView。
 
 ## 功能
 

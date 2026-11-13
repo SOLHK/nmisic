@@ -1,5 +1,9 @@
 # Releasing
 
+Build the Windows x64 installer from `main` with `go tool mygo build -platform windows/amd64`. The installer is written to `build/windows-amd64/`.
+
+The upstream tag workflow described below requires the project's own update feed and signing credentials before it can publish releases for nmisic.
+
 1. Commit pending work, bring main up to date with origin, and run `go test ./internal/...`. Others push to main too, so a release cut from a stale main leaves out their work:
 
    ```bash

@@ -113,7 +113,7 @@ func (a *app) trayMenu() *mygo.Menu {
 		}
 	}
 	name := mygo.App.Name()
-	return mygo.NewMenu([]*mygo.MenuItem{
+	items := []*mygo.MenuItem{
 		{Label: "打开" + name, Click: run(a.showMain)},
 		mygo.Separator(),
 		{Label: "播放/暂停", Click: run(func() { a.pl.TogglePlay() })},
@@ -122,8 +122,13 @@ func (a *app) trayMenu() *mygo.Menu {
 		{Label: "喜欢/取消喜欢", Click: run(a.likeCurrent)},
 		mygo.Separator(),
 		{Label: "设置…", Click: run(front(a.openSettings))},
-		{Label: "检查更新…", Click: run(front(checkForUpdates))},
+	}
+	if a.updates {
+		items = append(items, &mygo.MenuItem{Label: "检查更新…", Click: run(front(checkForUpdates))})
+	}
+	items = append(items,
 		mygo.Separator(),
-		{Label: "退出" + name, Click: func(*mygo.MenuItem, *mygo.Window) { mygo.App.Quit() }},
-	})
+		&mygo.MenuItem{Label: "退出" + name, Click: func(*mygo.MenuItem, *mygo.Window) { mygo.App.Quit() }},
+	)
+	return mygo.NewMenu(items)
 }

@@ -1,11 +1,10 @@
 package app
 
 import (
-	"os"
-	"path/filepath"
 	"testing"
 	"time"
 
+	"github.com/egoist/mygo"
 	"github.com/egoist/mygo/ui"
 
 	"netease-music-mygo/internal/netease"
@@ -86,23 +85,16 @@ func TestCheckForUpdatesFromSettings(t *testing.T) {
 	}
 }
 
-// The data kept under the app's old name moves to the directory of its
-// name, which Path made empty, but not over data kept there already.
-func TestMoveOldData(t *testing.T) {
-	root := t.TempDir()
-	old, dir := filepath.Join(root, oldName), filepath.Join(root, "MyGo 云音乐")
-	os.MkdirAll(old, 0o700)
-	os.WriteFile(filepath.Join(old, "settings.json"), []byte("old"), 0o600)
-	os.MkdirAll(dir, 0o700)
-	moveDir(old, dir)
-	if b, _ := os.ReadFile(filepath.Join(dir, "settings.json")); string(b) != "old" {
-		t.Fatalf("settings %q after moving", b)
+// Settings still show the version in builds without an update feed.
+func TestVersionVisibleWithoutUpdater(t *testing.T) {
+	a := newTestApp()
+	a.settings = defaultSettings()
+	tt := ui.NewTester(a.settingsView, 560, 2000)
+	tt.Frame()
+	if _, ok := tt.Find("当前版本 " + mygo.App.Version()); !ok {
+		t.Fatal("current version is missing")
 	}
-
-	os.MkdirAll(old, 0o700)
-	os.WriteFile(filepath.Join(old, "settings.json"), []byte("older"), 0o600)
-	moveDir(old, dir)
-	if b, _ := os.ReadFile(filepath.Join(dir, "settings.json")); string(b) != "old" {
-		t.Fatalf("settings %q, moved over what was there", b)
+	if _, ok := tt.Find("检查更新"); ok {
+		t.Fatal("check for updates is available without an update feed")
 	}
 }

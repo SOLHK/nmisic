@@ -19,11 +19,15 @@ func (a *app) setMenu() {
 	name := mygo.App.Name()
 	appMenu := []*mygo.MenuItem{
 		{Role: mygo.RoleAbout, Label: "关于" + name},
-		{Label: "检查更新…", Click: run(checkForUpdates)},
-		mygo.Separator(),
-		{Label: "设置…", Accelerator: "CmdOrCtrl+,", Click: run(a.openSettings)},
-		mygo.Separator(),
 	}
+	if a.updates {
+		appMenu = append(appMenu, &mygo.MenuItem{Label: "检查更新…", Click: run(checkForUpdates)})
+	}
+	appMenu = append(appMenu,
+		mygo.Separator(),
+		&mygo.MenuItem{Label: "设置…", Accelerator: "CmdOrCtrl+,", Click: run(a.openSettings)},
+		mygo.Separator(),
+	)
 	// Services and hiding are macOS's alone. Elsewhere MyGo leaves their
 	// items out but keeps the separators around them, which then stack.
 	if runtime.GOOS == "darwin" {

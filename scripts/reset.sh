@@ -12,8 +12,8 @@
 # quit first.
 set -euo pipefail
 
-name="MyGo 云音乐"
-id="dev.egoist.cloudmusic"
+name="nmisic"
+id="io.github.solhk.nmisic"
 release=0 keep_login=0 songs=0
 for arg in "$@"; do
 	case "$arg" in

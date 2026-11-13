@@ -205,7 +205,6 @@ func Run() error {
 		queueAt:    -1,
 		cacheUsed:  -1,
 	}
-	moveOldData()
 	a.useUpdater()
 	mygo.App.WhenReady(func() {
 		a.settings = loadSettings()
